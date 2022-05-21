@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Highlight-Blue.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <div>
+        <div class="header-blue" style="height:745px;">
+            <nav class="navbar navbar-default navigation-clean-search">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/dashboard">Refugee ID System</a>
+                        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav">
+                            <li role="presentation">
+                                <a href="/identify">Identify </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="/manage">Manage Resources</a>
+                            </li>
+                        </ul>
+                        <p class="navbar-text navbar-right">
+                            <a class="btn btn-default action-button" role="button" href="#">Logout </a>
+                        </p>
+                    </div>
+                </div>
+            </nav>
+            <div class="container hero">
+                <div class="row">
+                    <div class="col-lg-5 col-lg-offset-1 col-md-5 col-md-offset-0">
+                        <h1 class="text-center" style="margin-top:10px;margin-bottom:15px;font-size:32px;">Time</h1>
+                        <h1 class="text-center" style="margin-top:10px;margin-bottom:15px;font-size:32px;" >
+                            <strong id="time">12:00 AM</strong>
+                        </h1>
+                        <h1 class="text-center" style="margin-top:10px;margin-bottom:15px;font-size:32px;">Current Refugee Count </h1>
+                        <h1 class="text-center" style="margin-top:10px;margin-bottom:15px;font-size:32px;">
+                            <strong>52,385 </strong>
+                        </h1>
+                        <h1 class="text-center" style="margin-top:10px;margin-bottom:15px;font-size:32px;">Availability Remaining</h1>
+                        <h1 class="text-center" style="margin-top:10px;margin-bottom:15px;font-size:32px;">
+                            <strong>2,615 </strong>
+                        </h1>
+                        <h1 style="margin-top:10px;margin-bottom:15px;font-size:32px;"> </h1>
+                    </div>
+                    <div class="col-lg-5 col-lg-offset-1 col-md-6 col-md-offset-1">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span><strong>01/28 07:14 AM &nbsp; &nbsp; &nbsp; &nbsp; </strong> 19 new refugees arrived at Khuzestan Camp, Iraq</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span><strong>01/28 06:14 AM &nbsp; &nbsp; &nbsp; &nbsp; </strong> 3 new refugees arrived at Kakuma Camp, Kenya</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span><strong>01/27 02:14 PM &nbsp; &nbsp; &nbsp; &nbsp; </strong> 798 new food packets arrived at Calais Camp, France</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span><strong>01/26 11:14 PM &nbsp; &nbsp; &nbsp; &nbsp; </strong> 118 new refugees arrived at Pugnido Camp, Ethiopia</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span><strong>01/25 07:14 PM &nbsp; &nbsp; &nbsp; &nbsp; </strong> 37 new refugees arrived at Calais Camp, France</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span><strong>01/24 09:14 AM &nbsp; &nbsp; &nbsp; &nbsp; </strong> 26 new refugees arrived at Osmaniye Camp, Turkey</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span><strong>01/24 02:14 PM &nbsp; &nbsp; &nbsp; &nbsp; </strong> 773 new medical supplies arrived at Zaatari Camp</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span><strong>01/24 06:14 PM &nbsp; &nbsp; &nbsp; &nbsp; </strong> 37 new refugees arrived at Kakuma Camp, Kenya</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span><strong>01/23 10:14 AM &nbsp; &nbsp; &nbsp; &nbsp; </strong> 98 new food packets arrived at Pugnido Camp</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span><strong>01/23 04:14 PM &nbsp; &nbsp; &nbsp; &nbsp; </strong> 36 new refugees arrived at Osmaniye Camp, Turkey</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-lg-offset-5 col-md-12" style="margin-top:71px;">
+                        <button class="btn btn-warning active btn-lg" type="button" style="margin-left:-12px;">View Notifications</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function updateClock() {
+            time = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true})
+            document.getElementById('time').innerHTML = time;
+            setTimeout(updateClock, 1000);
+        }
+        updateClock();
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+
+</html>

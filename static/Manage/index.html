@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Highlight-Blue.css">
+    <link rel="stylesheet" href="assets/css/Highlight-Clean.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <div>
+        <div class="header-blue">
+            <nav class="navbar navbar-default navigation-clean-search">
+                <div class="container">
+                    <div class="navbar-header"><a class="navbar-brand" href="/dashboard">Refugee ID System</a><button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
+                    <div
+                        class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav">
+                            <li role="presentation"><a href="/identify">Identify </a></li>
+                            <li role="presentation"><a href="/manage">Manage Resources</a></li>
+                        </ul>
+                        <p class="navbar-text navbar-right"> <a class="btn btn-default action-button" role="button" href="#">Logout </a></p>
+                </div>
+        </div>
+        </nav>
+        <div class="container hero">
+            <div class="row">
+                <div class="col-md-1 col-md-offset-1">
+
+                    <div id="map" style="height: 100%; width: 1000px; height: 350px;" ></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="highlight-clean">
+        <div class="container">
+            <div class="intro">
+                <h2 id="camp_name" class="text-center">Refugee Camps Overview</h2>
+                <p id="camp_info" class="text-center">Click on a marker on the map to get camp details.</p>
+            </div>
+            <div class="buttons"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Send Resource Request</button></div>
+
+
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Resource Request</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="filter">For Camp:</label>
+                            <select class="form-control">
+                                <option value="0" selected>Khuzestan Refugee Camp, Iraq</option>
+                                <option value="1">Kakuma Refugee Camp, Kenya</option>
+                                <option value="2">Zaatari Refugee Camp, Jordan</option>
+                                <option value="3">Pugnido Refugee Camp, Ethiopia</option>
+                                <option value="4">Calais Refugee Camp, France</option>
+                                <option value="5">Mae La Refugee Camp, Thailand</option>
+                                <option value="6">Osmaniye Refugee Camp, Turkey</option>
+                                <option value="7">Panian Refugee Camp, Pakistan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="filter">Resource Type</label>
+                            <select class="form-control">
+                                <option value="0" selected>Food Items</option>
+                                <option value="1">Clothes</option>
+                                <option value="2">Medical Supplies</option>
+                            </select>
+                        </div>
+                      <div class="form-group">
+                        <label for="nr">Amount:</label>
+                        <input type="number" class="form-control" id="nr">
+                      </div>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 31.4360, lng: 49.0413},
+          zoom: 3
+        });
+        var m1 = createMarker({lat: 31.4360, lng: 49.0413}, 'Khuzestan Refugee Camp, Iraq', '1,276','3,859','1,048','729');
+        var m2 = createMarker({lat: 3.7168, lng: 34.8569}, 'Kakuma Refugee Camp, Kenya', '184,550','373,234','235,421','50,935');
+        var m3 = createMarker({lat: 32.2935, lng: 36.3277}, 'Zaatari Refugee Camp, Jordan', '77,781','203,235','283,251','44,237');
+        var m4 = createMarker({lat: 6.8770, lng: 31.3070}, 'Yida Refugee Camp, South Sudan', '70,331','148,523','192,235','30,151');
+        var m5 = createMarker({lat: 6.3690, lng: 34.8888}, 'Katumba Refugee Camp, Tanzania', '66,416','149,252','185,135','58,398');
+        var m6 = createMarker({lat: 9.1450, lng: 40.4897}, 'Pugnido Refugee Camp, Ethiopia', ' 63,262','32,263','172,274','32,841');
+        var m7 = createMarker({lat: 30.3753, lng: 69.3451}, 'Panian Refugee Camp, Pakistan', ' 62,264','35,372','129,274','10,273');
+        var m8 = createMarker({lat: 38.9637, lng: 35.2433}, 'Osmaniye Refugee Camp, Turkey', '7,304','13,859','12,245','5,732');
+        var m9 = createMarker({lat: 50.9513, lng: 1.8587}, 'Calais Refugee Camp, France', '11,235','63,859','35,457','9,137');
+        var m10 = createMarker({lat: 15.8700, lng: 100.9925}, 'Mae La Refugee Camp, Thailand', '40,124','36,859','12,462','38,372');
+
+      }
+
+          function createMarker(pos, t, p, f, c, m) {
+            var marker = new google.maps.Marker({
+                position: pos,
+                map: map,  // google.maps.Map
+                title: t,
+                population: 'Population: ' + p,
+                food: 'Food Packets: ' + f,
+                clothes: 'Clothes: ' + c,
+                medical: 'Medical Supplies: ' + m
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+                map.setZoom(5);
+                map.setCenter(marker.getPosition());
+                document.getElementById("camp_name").innerHTML = marker.title;
+                document.getElementById("camp_info").innerHTML = marker.population + "<br />" + marker.food + "<br />" + marker.clothes + "<br />" + marker.medical;
+
+            });
+            return marker;
+        }
+
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8jdjXCrFgJofz1rmfi7RkWir0620VhTU&callback=initMap"
+    async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+
+</html>

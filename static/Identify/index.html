@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identify</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Adamina">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Highlight-Blue.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <div>
+        <div class="header-blue" style="align-content:center;">
+            <nav class="navbar navbar-default navigation-clean-search">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/dashboard">Refugee ID System</a>
+                        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav">
+                            <li role="presentation">
+                                <a href="/identify">Identify </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="/manage">Manage Resources</a>
+                            </li>
+                        </ul>
+                        <p class="navbar-text navbar-right">
+                            <a class="btn btn-default action-button" role="button" href="#">Logout </a>
+                        </p>
+                    </div>
+                </div>
+            </nav>
+            <div class="container hero" id="start_identify" style="display: none;">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <img class="img-responsive" src="https://www.sportingpost.co.za/wp-content/uploads/2016/09/unknown_trainer.png">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <button id="start_ID" class="btn btn-danger active btn-lg" type="button" style="margin-top:68px;font-family:Roboto, sans-serif;margin-left:60px;">Start Identification Process</button>
+                    </div>
+                </div>
+            </div>
+            <div class="container hero" id="take_snapshot" style="display: block;">
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-3">
+                        <video id="video" width="640" height="480" autoplay></video>
+                        <canvas id="canvas" width="640" height="480"></canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5 col-md-offset-5">
+                        <button id="snap" class="btn btn-danger active btn-lg" type="button" style="margin-top:68px;font-family:Roboto, sans-serif;margin-left:60px; margin-top:-900px;">Take Snapshot</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        var video = document.getElementById('video');
+
+        localStorage.removeItem("image");
+        localStorage.removeItem("data");
+
+        // Get access to the camera!
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // Not adding `{ audio: true }` since we only want video now
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
+                video.src = window.URL.createObjectURL(stream);
+                video.play();
+            });
+        } else if (navigator.getUserMedia) { // Standard
+            navigator.getUserMedia({ video: true }, function (stream) {
+                video.src = stream;
+                video.play();
+            }, errBack);
+        } else if (navigator.webkitGetUserMedia) { // WebKit-prefixed
+            navigator.webkitGetUserMedia({ video: true }, function (stream) {
+                video.src = window.webkitURL.createObjectURL(stream);
+                video.play();
+            }, errBack);
+        } else if (navigator.mozGetUserMedia) { // Mozilla-prefixed
+            navigator.mozGetUserMedia({ video: true }, function (stream) {
+                video.src = window.URL.createObjectURL(stream);
+                video.play();
+            }, errBack);
+        }
+
+        // Trigger photo take
+        document.getElementById("snap").addEventListener("click", function () {
+            context.drawImage(video, 0, 0, 640, 480);
+            var image = convertCanvasToImage(canvas);
+            // $.post("http://localhost:8080/identify", {
+            //     data: image.src
+            // }, function success(data, status, xhr) {
+            //     console.log(xhr.status)
+            //     // if (!data.status) {
+            //     //     $(location).attr('href', '/register');
+            //     // } else {
+            //     //     localStorage.setItem('data', JSON.stringify(data));
+            //     //     localStorage.setItem('image', image.src);
+            //     //     $(location).attr('href', '/confirm');
+            //     // }
+            // });
+
+            $.ajax({
+                method: "POST",
+                url: "http://localhost:8080/identify",
+                data: {
+                    data: image.src
+                },
+                error: function (xhr, status) {
+                    if (xhr.status != 200) {
+                        $(location).attr('href', '/register');
+                    }
+                },
+                success: function (data) {
+                    if (data.status) {
+                        $(location).attr('href', '/register');
+                    } else {
+                        localStorage.setItem('data', JSON.stringify(data));
+                        localStorage.setItem('image', image.src);
+                        $(location).attr('href', '/confirm');
+                    }
+                }
+            });
+        });
+
+        function convertCanvasToImage(canvas) {
+            var image = new Image();
+            image.src = canvas.toDataURL("image/png");
+            //console.log(image.src)
+            return image;
+        }
+    </script>
+</body>
+
+</html>

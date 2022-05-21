@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identify</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Adamina">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Highlight-Blue.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <div>
+        <div class="header-blue" style="align-content:center;">
+            <nav class="navbar navbar-default navigation-clean-search">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/dashboard">Refugee ID System</a>
+                        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav">
+                            <li role="presentation">
+                                <a href="/identify">Identify </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="/manage">Manage Resources</a>
+                            </li>
+                        </ul>
+                        <p class="navbar-text navbar-right">
+                            <a class="btn btn-default action-button" role="button" href="#">Logout </a>
+                        </p>
+                    </div>
+                </div>
+            </nav>
+            <div class="container hero" id="new_user">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <p id="login_info" class="text-center">This user has not yet been registered with us. Would you like to enter his/her details?</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <button id="fill_form" class="btn btn-danger active btn-lg" type="button" style="margin-top:68px;font-family:Roboto, sans-serif;margin-left:120px;">Fill Form</button>
+                    </div>
+                </div>
+
+                <div class="login-dark" id="start_form" style="display: none; color: white;">
+                    <form class="col-md-4 col-md-offset-4">
+                        <h2 class="sr-only">New Refugee Form</h2>
+                        <br>
+                        <br>
+                        <div class="illustration">
+                            <i class="icon ion-ios-locked-outline"></i>
+                        </div>
+                        <div class="form-group">
+                            <input id="name" class="form-control" name="name" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <input id="medicalhistory" class="form-control" name="medicalhistory" placeholder="Medical History">
+                        </div>
+                        <div class="form-group">
+                            <input id="birthplace" class="form-control" name="birthplace" placeholder="Birthplace">
+                        </div>
+                        <div class="form-group">
+                            <input id="location" class="form-control" name="location" placeholder="Past Location">
+                        </div>
+                        <div class="form-group">
+                            <input id="generalhealth" class="form-control" type="med" name="med" placeholder="General Health">
+                        </div>
+                        <div class="form-group">
+                            <button id="submit" class="btn btn-primary btn-block">Save and Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            $('#fill_form').click(function (e) {
+                document.getElementById("start_form").style.display = "Block"
+            });
+        });
+
+        $(function () {
+            $('#submit').click(function (e) {
+                e.preventDefault();
+                var name = $("#name").val();
+                var medicalhistory = $("#medicalhistory").val();
+                var birthplace = $("#birthplace").val();
+                var locations = $("#location").val();
+                var generalhealth = $("#generalhealth").val();
+                var image = localStorage.getItem('image');
+                $.post("http://localhost:8080/register", {
+                    name,
+                    medicalhistory,
+                    birthplace,
+                    locations,
+                    generalhealth,
+                    image
+                }, function (data) {
+                    if (data.status === "success") {
+                        console.log(data)
+                    }
+                    document.getElementById("start_form").style.display = "none"
+                    document.getElementById("new_user").innerHTML = "<div class='row'><div class='col-md-4 col-md-offset-4'><p id='login_info' class='text-center'>This user's details have been entered. Navigate away from this page using the Navigation bar on the top of this page.</p></div></div>"
+                });
+
+            });
+        });
+    </script>
+</body>
+
+</html>
